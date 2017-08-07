@@ -34,7 +34,9 @@ public class EnemySpawner : MonoBehaviour {
 
     void Init() {
         currentEnemies = new List<Enemy>();
-        SpawnEnemy();
+        SpawnEnemy(playerRef.transform.position + new Vector3(4,0,0));
+        SpawnEnemy(playerRef.transform.position + new Vector3(6, 0, 0));
+        SpawnEnemy(playerRef.transform.position + new Vector3(8, 0, 0));
     }
 
     // Use this for initialization
@@ -47,9 +49,9 @@ public class EnemySpawner : MonoBehaviour {
 		
 	}
 
-    void SpawnEnemy() {
-        GameObject newHelper = (GameObject)Instantiate(Resources.Load("Enemy"), playerRef.transform.position + new Vector3(4,0,0), Quaternion.identity);
-        Enemy newEnemy = newHelper.GetComponent<Enemy>();
+    void SpawnEnemy(Vector3 spawnPos) {
+        GameObject enemyObj = (GameObject)Instantiate(Resources.Load("Enemy"), spawnPos, Quaternion.identity);
+        Enemy newEnemy = enemyObj.GetComponent<Enemy>();
         newEnemy.PlayerRef = playerRef;
         currentEnemies.Add(newEnemy);
     }

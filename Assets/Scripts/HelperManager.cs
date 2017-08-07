@@ -1,6 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum HelperType {
+    Protector,
+    Attacker,
+    Shooter
+}
 
 public class HelperManager : MonoBehaviour {
     List<Helper> currentHelpers;
@@ -37,7 +42,9 @@ public class HelperManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Init();
-        SpawnHelper();
+        SpawnHelper(HelperType.Protector);
+        SpawnHelper(HelperType.Attacker);
+        SpawnHelper(HelperType.Shooter);
 	}
 	
 	// Update is called once per frame
@@ -45,16 +52,27 @@ public class HelperManager : MonoBehaviour {
 		
 	}
 
-    void SpawnHelper() {
-        GameObject newHelper = (GameObject)Instantiate(Resources.Load("Protector"), playerRef.transform.position, Quaternion.identity);
-        Protector newProtector = newHelper.GetComponent<Protector>();
-        newProtector.PlayerRef = playerRef;
-        currentHelpers.Add(newProtector);
+    //Factory Pattern Method
+    void SpawnHelper(HelperType type) {
+        string typeName = type.ToString();
 
-        GameObject newHelper2 = (GameObject)Instantiate(Resources.Load("Attacker"), playerRef.transform.position, Quaternion.identity);
-        Attacker newAttacker = newHelper2.GetComponent<Attacker>();
-        newAttacker.PlayerRef = playerRef;
-        currentHelpers.Add(newAttacker);
-
+        GameObject newHelper = (GameObject)Instantiate(Resources.Load(typeName), playerRef.transform.position, Quaternion.identity);
+        switch (typeName) {
+            case "Attacker":
+                Attacker newAttacker = newHelper.GetComponent<Attacker>();
+                newAttacker.PlayerRef = playerRef;
+                currentHelpers.Add(newAttacker);
+                break;
+            case "Protector":
+                Protector newProtector = newHelper.GetComponent<Protector>();
+                newProtector.PlayerRef = playerRef;
+                currentHelpers.Add(newProtector);
+                break;
+            case "Shooter":
+                Shooter newShooter = newHelper.GetComponent<Shooter>();
+                newShooter.PlayerRef = playerRef;
+                currentHelpers.Add(newShooter);
+                break;
+        }
     }
 }
