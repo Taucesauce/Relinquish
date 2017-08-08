@@ -7,10 +7,11 @@ using UnityEngine;
 public class Helper : MonoBehaviour {
     protected Player playerRef;
     public Player PlayerRef { get { return playerRef; } set { playerRef = value; } }
+    protected Rigidbody2D helperRB;
 
     // Use this for initialization
     void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame

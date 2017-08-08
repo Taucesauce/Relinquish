@@ -9,13 +9,12 @@ public class Attacker : Helper {
 
     // Use this for initialization
     void Start() {
-        
+        helperRB = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update() {
-        float step = speed * Time.deltaTime;
         Vector3 enemyToAttack = playerRef.GetNearestEnemy().position;
-        transform.position = Vector3.MoveTowards(transform.position, enemyToAttack, step);
+        helperRB.velocity = new Vector2(enemyToAttack.x - transform.position.x, enemyToAttack.y - transform.position.y).normalized * speed;
     }
 }

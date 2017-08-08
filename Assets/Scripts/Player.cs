@@ -14,11 +14,12 @@ public class Player : MonoBehaviour {
     //Movement Vars
     [SerializeField]
     float playerSpeed;
-
+    Rigidbody2D playerRigidBody;
 
 	// Use this for initialization
 	void Awake () {
         player = ReInput.players.GetPlayer(0);
+        playerRigidBody = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
@@ -35,21 +36,26 @@ public class Player : MonoBehaviour {
     }
 
     void ProcessInput() {
+        if (!player.GetAnyButton()) { playerRigidBody.velocity = Vector2.zero; }
+        Vector2 totalVelocity = new Vector2();
+
         if (upPressed) {
-            transform.position += (Vector3.up * playerSpeed * Time.deltaTime);
+            totalVelocity += (Vector2.up * playerSpeed);
         }
 
-        if(downPressed) {
-            transform.position += (Vector3.down * playerSpeed * Time.deltaTime);
+        else if(downPressed) {
+            totalVelocity += (Vector2.down * playerSpeed);
         }
 
         if(leftPressed) {
-            transform.position += (Vector3.left * playerSpeed * Time.deltaTime);
+            totalVelocity += (Vector2.left * playerSpeed);
         }
 
-        if(rightPressed) {
-            transform.position += (Vector3.right * playerSpeed * Time.deltaTime);
+        else if(rightPressed) {
+            totalVelocity += (Vector2.right * playerSpeed);
         }
+
+        playerRigidBody.velocity = totalVelocity;
     }
 
     public Transform GetNearestEnemy() {
