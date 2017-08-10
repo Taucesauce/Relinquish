@@ -17,4 +17,9 @@ public class Attacker : Helper {
         Vector3 enemyToAttack = playerRef.GetNearestEnemy().position;
         helperRB.velocity = new Vector2(enemyToAttack.x - transform.position.x, enemyToAttack.y - transform.position.y).normalized * speed;
     }
+
+    public override void HitEvent() {
+        Destroy(gameObject);
+    }
+
 }

@@ -9,6 +9,7 @@ public enum HelperType {
 
 public class HelperManager : MonoBehaviour {
     List<Helper> currentHelpers;
+    int helperIterator = 0;
     [SerializeField]
     Player playerRef;
 
@@ -37,6 +38,7 @@ public class HelperManager : MonoBehaviour {
 
     void Init() {
         currentHelpers = new List<Helper>();
+        EventManager.StartListeningTypeInt("Helper Hit", helperOnHit);
     }
 
     // Use this for initialization
@@ -60,19 +62,28 @@ public class HelperManager : MonoBehaviour {
         switch (typeName) {
             case "Attacker":
                 Attacker newAttacker = newHelper.GetComponent<Attacker>();
+                newAttacker.ID = helperIterator;
                 newAttacker.PlayerRef = playerRef;
                 currentHelpers.Add(newAttacker);
                 break;
             case "Protector":
                 Protector newProtector = newHelper.GetComponent<Protector>();
+                newProtector.ID = helperIterator;
                 newProtector.PlayerRef = playerRef;
                 currentHelpers.Add(newProtector);
                 break;
             case "Shooter":
                 Shooter newShooter = newHelper.GetComponent<Shooter>();
+                newShooter.ID = helperIterator;
                 newShooter.PlayerRef = playerRef;
                 currentHelpers.Add(newShooter);
                 break;
         }
+
+        helperIterator++;
+    }
+
+    void helperOnHit(int helperID) {
+        currentHelpers.Find(x => x.ID == helperID).HitEvent();
     }
 }

@@ -8,6 +8,8 @@ public class Helper : MonoBehaviour {
     protected Player playerRef;
     public Player PlayerRef { get { return playerRef; } set { playerRef = value; } }
     protected Rigidbody2D helperRB;
+    private int id;
+    public int ID { get { return id; } set { id = value; } }
 
     // Use this for initialization
     void Start () {
@@ -18,4 +20,8 @@ public class Helper : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public virtual void HitEvent() {
+
+    }
 }

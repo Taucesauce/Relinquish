@@ -21,4 +21,8 @@ public class Protector : Helper {
         Vector3 playerFront = playerRef.transform.position + new Vector3(horizontalOffset, 0, 0);
         helperRB.velocity = new Vector2(playerFront.x - transform.position.x, playerFront.y - transform.position.y).normalized * speed;
     }
+
+    public override void HitEvent() {
+        Destroy(gameObject);
+    }
 }

@@ -16,21 +16,23 @@ public class Enemy : MonoBehaviour {
 		
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnTriggerEnter2D(Collider2D collision) {
         string objectCollided = collision.gameObject.name;
 
         switch (objectCollided) {
             case "Player":
                 Debug.Log("Player Hit");
                 break;
-            case "Attacker":
-                Debug.Log("Attacker Hit");
+            case "Attacker(Clone)":
+            case "Protector(Clone)":
+                Debug.Log(objectCollided + " Hit");
+                EventManager.TriggerIntEvent("Helper Hit", collision.gameObject.GetComponent<Helper>().ID);
+                Destroy(gameObject);
                 break;
-            case "Protector":
-                Debug.Log("Protector Hit");
-                break;
-            case "Shooter":
-                Debug.Log("Shooter Hit");
+            case "Bullet(Clone)":
+                Debug.Log("Bullet Hit");
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
                 break;
         }
     }
