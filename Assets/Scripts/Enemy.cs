@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour {
 		
 	}
 
+    //TODO: Handle Helper de-instantiation in helper class so events can be called appropriately.
     private void OnTriggerEnter2D(Collider2D collision) {
         string objectCollided = collision.gameObject.name;
 
@@ -24,7 +25,6 @@ public class Enemy : MonoBehaviour {
                 Debug.Log("Player Hit");
                 break;
             case "Attacker(Clone)":
-            case "Protector(Clone)":
                 Debug.Log(objectCollided + " Hit");
                 EventManager.TriggerIntEvent("Helper Hit", collision.gameObject.GetComponent<Helper>().ID);
                 Destroy(gameObject);
@@ -32,7 +32,6 @@ public class Enemy : MonoBehaviour {
             case "Bullet(Clone)":
                 Debug.Log("Bullet Hit");
                 Destroy(collision.gameObject);
-                Destroy(gameObject);
                 break;
         }
     }

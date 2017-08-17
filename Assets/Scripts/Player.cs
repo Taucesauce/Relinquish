@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        playerSpeed = 5 - (.5f * HelperManager.helperCount);
         GetInput();
         ProcessInput();
 	}

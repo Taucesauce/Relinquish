@@ -8,7 +8,8 @@ public enum HelperType {
 }
 
 public class HelperManager : MonoBehaviour {
-    List<Helper> currentHelpers;
+    static List<Helper> currentHelpers;
+    public static int helperCount { get { return currentHelpers.Count; } }
     int helperIterator = 0;
     [SerializeField]
     Player playerRef;
@@ -39,21 +40,22 @@ public class HelperManager : MonoBehaviour {
     void Init() {
         currentHelpers = new List<Helper>();
         EventManager.StartListeningTypeInt("Helper Hit", helperOnHit);
+        EventManager.StartListening("Pickup Hit", PickupHit);
     }
 
     // Use this for initialization
     void Start () {
         Init();
-        SpawnHelper(HelperType.Protector);
-        SpawnHelper(HelperType.Attacker);
-        SpawnHelper(HelperType.Shooter);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
-
+    
+    void PickupHit() {
+        SpawnHelper((HelperType)Random.Range(0, 2));
+    }
     //Factory Pattern Method
     void SpawnHelper(HelperType type) {
         string typeName = type.ToString();
@@ -85,5 +87,7 @@ public class HelperManager : MonoBehaviour {
 
     void helperOnHit(int helperID) {
         currentHelpers.Find(x => x.ID == helperID).HitEvent();
+        EventManager.TriggerEvent("Helper Despawn");
+        currentHelpers.Remove(currentHelpers.Find(x => x.ID == helperID));
     }
 }
